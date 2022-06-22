@@ -33,6 +33,7 @@ Recruitment.init(sequelize);
 
 User.associate(db);
 Company.associate(db);
+History.associate(db);
 Recruitment.associate(db);
 
 export default db;

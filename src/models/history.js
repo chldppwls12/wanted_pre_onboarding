@@ -18,6 +18,11 @@ class History extends Model {
       underscored: true
     })
   };
+
+  static associate(db){
+    db.History.belongsTo(db.Recruitment, {foreignKey: 'recruitment_id'});
+    db.History.belongsTo(db.User, {foreignKey: 'user_id'});
+  }
 };
 
 export default History;

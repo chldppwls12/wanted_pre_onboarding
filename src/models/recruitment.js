@@ -36,7 +36,9 @@ class Recruitment extends Model {
   };
 
   static associate(db){
-    db.Recruitment.hasMany(db.History, {foreignKey: 'recruitment_id'});
+    db.Recruitment.belongsTo(db.Company, {foreignKey: 'company_id'});
+    
+    db.Recruitment.hasMany(db.History, {foreignKey: 'recruitment_id'})
   }
 };
 
