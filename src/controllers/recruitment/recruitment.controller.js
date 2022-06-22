@@ -35,3 +35,32 @@ export const getAllRecruitments = async (req, res) => {
     return res.send(err);
   }
 };
+
+export const addRecruitment = async (req, res) => {
+  try{
+    const {company_id, position, compensation, content, skill} = req.body;
+    
+    const isExistCompanyId = await Company.findOne({
+      where: {'company_id': company_id}
+    });
+
+    if (!isExistCompanyId){
+      return res.status(400).json('존재하지 않는 company_id 입니다');
+    }
+
+    await Recruitment.create({
+      company_id,
+      position,
+      compensation,
+      content,
+      skill
+    });
+
+    return res.status(201).json('성공');
+  }
+  catch(err){
+    logger.error(`addRecruitment Controller Err: ${err}`);
+    console.log(err);
+    return res.send(err);
+  }
+}

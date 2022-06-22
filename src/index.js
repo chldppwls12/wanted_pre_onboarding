@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/', routes);
 app.use((err, req, res, next) => {
   if (err instanceof ValidationError){
-    return res.send(errResponse({isSuccess: false, code: 404, message: err.details.query.message}));
+    return res.status(400).json(err.message);
   }
 })
 
