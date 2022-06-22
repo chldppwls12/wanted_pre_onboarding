@@ -2,6 +2,9 @@ import Sequelize, {Op} from 'sequelize';
 import { logger } from '../../config/winston.js';
 import Recruitment from '../../models/recruitment.js';
 import Company from '../../models/company.js';
+import { response, errResponse } from '../../utils/response.js';
+import statusCode from '../../utils/statusCode.js';
+import message from '../../utils/responseMessage.js';
 
 export const getAllRecruitments = async (req, res) => {
   try{
@@ -51,14 +54,28 @@ export const getAllRecruitments = async (req, res) => {
     const result = await Recruitment.findAll({...attrs});
     
     if (result.length === 0){
-      return res.status(404).json('등록된 채용 공고가 없습니다');
+      return res
+      .status(statusCode.NOT_FOUND)
+      .send(errResponse(statusCode.NOT_FOUND,
+        message.NOT_FOUND
+      ));
     }
 
-    return res.status(200).json(result);
+    return res
+    .status(statusCode.OK)
+    .send(response(statusCode.SUCCESS,
+      message.SUCCESS,
+      result
+    ));
   }catch(err){
     logger.error(`getAllRecruitments Controller Err: ${err}`);
     console.log(err);
-    return res.send(err);
+    
+    return res.
+    status(statusCode.INTERNAL_SERVER_ERROR)
+    .send(errResponse(statusCode.INTERNAL_SERVER_ERROR,
+      message.INTERNAL_SERVER_ERROR
+    ));
   }
 };
 
@@ -69,7 +86,11 @@ export const addRecruitment = async (req, res) => {
     const isExistCompanyId = await Company.findByPk(company_id);
 
     if (!isExistCompanyId){
-      return res.status(400).json('존재하지 않는 company_id 입니다');
+      return res
+      .status(statusCode.NOT_FOUND)
+      .send(errResponse(statusCode.NOT_FOUND,
+        message.NOT_FOUND
+      ));
     }
 
     await Recruitment.create({
@@ -80,12 +101,21 @@ export const addRecruitment = async (req, res) => {
       skill
     });
 
-    return res.status(201).json('성공');
+    return res
+    .status(statusCode.CREATED)
+    .send(response(statusCode.OK,
+      message.SUCCESS
+    ));
   }
   catch(err){
     logger.error(`addRecruitment Controller Err: ${err}`);
     console.log(err);
-    return res.send(err);
+    
+    return res.
+    status(statusCode.INTERNAL_SERVER_ERROR)
+    .send(errResponse(statusCode.INTERNAL_SERVER_ERROR,
+      message.INTERNAL_SERVER_ERROR
+    ));
   }
 }
 
@@ -105,12 +135,21 @@ export const updateRecruitment = async (req, res) => {
       }
     });
 
-    return res.status(200).json('성공');
+    return res
+    .status(statusCode.OK)
+    .send(response(statusCode.OK,
+      message.SUCCESS
+    ));
   }
   catch(err){
     logger.error(`updateRecruitment Controller Err: ${err}`);
     console.log(err);
-    return res.send(err);
+    
+    return res.
+    status(statusCode.INTERNAL_SERVER_ERROR)
+    .send(errResponse(statusCode.INTERNAL_SERVER_ERROR,
+      message.INTERNAL_SERVER_ERROR
+    ));
   }
 }
 
@@ -120,7 +159,11 @@ export const getRecruitment = async (req, res) => {
 
     const isExistRecruitmentId = await Recruitment.findByPk(recruitment_id);
     if (!isExistRecruitmentId){
-      return res.status(400).json('존재하지 않는 recruitment_id 입니다');
+      return res
+      .status(statusCode.NOT_FOUND)
+      .send(errResponse(statusCode.NOT_FOUND,
+        message.NOT_FOUND
+      ));
     };
 
     const attrs = {
@@ -154,12 +197,22 @@ export const getRecruitment = async (req, res) => {
 
     result.dataValues.recruitments = recruitments;
 
-    return res.status(200).json(result);
+    return res
+    .status(statusCode.OK)
+    .send(response(statusCode.OK,
+      message.SUCCESS,
+      result
+    ));
   }
   catch(err){
     logger.error(`getRecruitment Controller Err: ${err}`);
     console.log(err);
-    return res.send(err);
+    
+    return res.
+    status(statusCode.INTERNAL_SERVER_ERROR)
+    .send(errResponse(statusCode.INTERNAL_SERVER_ERROR,
+      message.INTERNAL_SERVER_ERROR
+    ));
   }
 }
 
@@ -169,7 +222,11 @@ export const deleteRecruitment = async (req, res) => {
 
     const isExistRecruitmentId = await Recruitment.findByPk(recruitment_id);
     if (!isExistRecruitmentId){
-      return res.status(400).json('존재하지 않는 recruitment_id 입니다');
+      return res
+      .status(statusCode.NOT_FOUND)
+      .send(errResponse(statusCode.NOT_FOUND,
+        message.NOT_FOUND
+      ));
     };
 
     await Recruitment.destroy({
@@ -178,11 +235,19 @@ export const deleteRecruitment = async (req, res) => {
       }
     });
 
-    return res.status(200).json('성공');
+    return res
+    .status(statusCode.OK)
+    .send(response(statusCode.OK,
+      message.SUCCESS));
   }
   catch(err){
     logger.error(`deleteRecruitment Controller Err: ${err}`);
     console.log(err);
-    return res.send(err);
+    
+    return res.
+    status(statusCode.INTERNAL_SERVER_ERROR)
+    .send(errResponse(statusCode.INTERNAL_SERVER_ERROR,
+      message.INTERNAL_SERVER_ERROR
+    ));
   }
 }
