@@ -64,3 +64,28 @@ export const addRecruitment = async (req, res) => {
     return res.send(err);
   }
 }
+
+export const updateRecruitment = async (req, res) => {
+  try{
+    const {position, compensation, content, skill} = req.body;
+    const {recruitment_id} = req.params;
+    
+    await Recruitment.update({
+      position,
+      compensation,
+      content,
+      skill
+    }, {
+      where: {
+        recruitment_id
+      }
+    });
+
+    return res.status(200).json('성공');
+  }
+  catch(err){
+    logger.error(`updateRecruitment Controller Err: ${err}`);
+    console.log(err);
+    return res.send(err);
+  }
+}

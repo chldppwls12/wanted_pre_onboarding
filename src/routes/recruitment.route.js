@@ -6,5 +6,6 @@ const router = Router();
 
 router.get('/', recruitmentController.getAllRecruitments);
 router.post('/', validate(recruitmentValidator.addRecruitment), recruitmentController.addRecruitment);
+router.patch('/:recruitment_id', validate(recruitmentValidator.updateRecruitment), recruitmentController.updateRecruitment);
 
 export default router;
