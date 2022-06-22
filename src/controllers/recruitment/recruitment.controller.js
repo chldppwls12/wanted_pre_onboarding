@@ -129,6 +129,7 @@ export const getRecruitment = async (req, res) => {
           [Sequelize.col('company.name'), 'name'],
           [Sequelize.col('company.nation'), 'nation'],
           [Sequelize.col('company.area'), 'area'],
+          [Sequelize.col('company.company_id'), 'company_id'],
           'position',
           'compensation',
           'skill',
@@ -140,7 +141,18 @@ export const getRecruitment = async (req, res) => {
       }
     };
     const result = await Recruitment.findByPk(recruitment_id, attrs);
-    console.log(result)
+    const company_id = result.dataValues.company_id;
+
+    const recruitments = (await Recruitment.findAll({
+      attributes: [
+        'recruitment_id'
+      ],
+      where: {
+        company_id
+      }
+    })).map(item => item.recruitment_id);
+
+    result.dataValues.recruitments = recruitments;
 
     return res.status(200).json(result);
   }
