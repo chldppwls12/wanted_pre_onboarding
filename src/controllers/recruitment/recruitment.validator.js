@@ -33,3 +33,9 @@ export const getRecruitment = {
     recruitment_id: Joi.number().required()
   })
 };
+
+export const deleteRecruitment = {
+  params: Joi.object({
+    recruitment_id: Joi.number().required()
+  })
+}

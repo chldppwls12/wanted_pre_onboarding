@@ -8,5 +8,6 @@ router.get('/', validate(recruitmentValidator.getAllRecruitments), recruitmentCo
 router.post('/', validate(recruitmentValidator.addRecruitment), recruitmentController.addRecruitment);
 router.patch('/:recruitment_id', validate(recruitmentValidator.updateRecruitment), recruitmentController.updateRecruitment);
 router.get('/:recruitment_id', validate(recruitmentValidator.getRecruitment), recruitmentController.getRecruitment);
+router.delete('/:recruitment_id', validate(recruitmentValidator.deleteRecruitment), recruitmentController.deleteRecruitment);
 
 export default router;

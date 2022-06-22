@@ -162,3 +162,27 @@ export const getRecruitment = async (req, res) => {
     return res.send(err);
   }
 }
+
+export const deleteRecruitment = async (req, res) => {
+  try{
+    const {recruitment_id} = req.params;
+
+    const isExistRecruitmentId = await Recruitment.findByPk(recruitment_id);
+    if (!isExistRecruitmentId){
+      return res.status(400).json('존재하지 않는 recruitment_id 입니다');
+    };
+
+    await Recruitment.destroy({
+      where: {
+        recruitment_id
+      }
+    });
+
+    return res.status(200).json('성공');
+  }
+  catch(err){
+    logger.error(`deleteRecruitment Controller Err: ${err}`);
+    console.log(err);
+    return res.send(err);
+  }
+}
