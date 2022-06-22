@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import Sequelize, {Op} from 'sequelize';
 import { logger } from '../../config/winston.js';
 import Recruitment from '../../models/recruitment.js';
 import Company from '../../models/company.js';
@@ -21,6 +21,32 @@ export const getAllRecruitments = async (req, res) => {
       },
       order: [['recruitment_id', 'DESC']]
     };
+
+    const {search} = req.query;
+    if (search){
+      let searchColumns = [
+        '$company.name$',
+        '$company.nation$',
+        '$company.area$',
+        'position',
+        'compensation',
+        'skill'
+      ];
+
+      let columns = [];
+
+      for (let searchColumn of searchColumns){
+        columns.push({
+          [searchColumn]: {
+            [Op.like]: `%${search}%`
+          }
+        })
+      }
+    
+      attrs.where = {
+        [Op.or]: columns
+      };
+    }
 
     const result = await Recruitment.findAll({...attrs});
     

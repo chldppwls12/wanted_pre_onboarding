@@ -4,7 +4,7 @@ import * as recruitmentController from '../controllers/recruitment/recruitment.c
 import * as recruitmentValidator from '../controllers/recruitment/recruitment.validator.js';
 const router = Router();
 
-router.get('/', recruitmentController.getAllRecruitments);
+router.get('/', validate(recruitmentValidator.getAllRecruitments), recruitmentController.getAllRecruitments);
 router.post('/', validate(recruitmentValidator.addRecruitment), recruitmentController.addRecruitment);
 router.patch('/:recruitment_id', validate(recruitmentValidator.updateRecruitment), recruitmentController.updateRecruitment);
 

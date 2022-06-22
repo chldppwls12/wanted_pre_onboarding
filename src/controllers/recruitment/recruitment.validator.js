@@ -1,5 +1,11 @@
 import Joi from 'joi';
 
+export const getAllRecruitments = {
+  query: Joi.object({
+    search: Joi.string(),
+  })
+};
+
 export const addRecruitment = {
   body: Joi.object({
     company_id: Joi.number().required(),
