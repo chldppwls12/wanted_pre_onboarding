@@ -39,3 +39,4 @@ Icon | Description |
 🎨  | Improve structure / format of the code
 ♻️  | Refactor code
 📝  | Add or update documentation
+✅  | Add, update, or pass tests
