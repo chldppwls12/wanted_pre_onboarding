@@ -2,11 +2,18 @@
 프리온보딩 백엔드 코스 3차 선발 과제
 
 *사용한 언어와 프레임워크* : Javascript - Node.js(Express) <br>
-*필수 기술요건*: REST API, ORM, RDBS 사용
+*필수 기술요건*: REST API, ORM, RDBS(Mysql) 사용
 
 <br>
 
 ---
+## 💡 서비스 개요
+- 본 서비스는 기업의 채용을 위한 웹 서비스입니다.
+- 회사는 채용공고를 생성하고, 이에 사용자는 지원합니다.
+<br/>
+
+---
+
 ## 🗃️ DB 설계
 ![image](https://user-images.githubusercontent.com/63734765/174946902-9dea3509-35ac-4ddb-8e45-bdf5de505eaf.png)
 
@@ -31,3 +38,4 @@ Icon | Description |
 ✨  | Introduce new features
 🎨  | Improve structure / format of the code
 ♻️  | Refactor code
+📝  | Add or update documentation
