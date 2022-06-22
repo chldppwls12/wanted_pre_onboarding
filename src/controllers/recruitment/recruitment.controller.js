@@ -66,9 +66,7 @@ export const addRecruitment = async (req, res) => {
   try{
     const {company_id, position, compensation, content, skill} = req.body;
     
-    const isExistCompanyId = await Company.findOne({
-      where: {'company_id': company_id}
-    });
+    const isExistCompanyId = await Company.findByPk(company_id);
 
     if (!isExistCompanyId){
       return res.status(400).json('존재하지 않는 company_id 입니다');
@@ -120,10 +118,7 @@ export const getRecruitment = async (req, res) => {
   try{
     const {recruitment_id} = req.params;
 
-    const isExistRecruitmentId = await Recruitment.findOne({
-      where: {'recruitment_id': recruitment_id}
-    });
-
+    const isExistRecruitmentId = await Recruitment.findByPk(recruitment_id);
     if (!isExistRecruitmentId){
       return res.status(400).json('존재하지 않는 recruitment_id 입니다');
     };
