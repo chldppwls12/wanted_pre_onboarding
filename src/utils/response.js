@@ -1,17 +1,18 @@
-const response = ({isSuccess, code, message}, result) => {
+const response = (status, message, data) => {
   return {
-    isSuccess,
-    code,
+    status,
+    success: true,
     message,
-    result
+    data
   };
 };
 
-const errResponse = ({isSuccess, code, message}) => {
+const errResponse = (status, message, data) => {
   return {
-    isSuccess,
-    code,
-    message
+    status,
+    success: false,
+    message,
+    data
   };
 };
 
