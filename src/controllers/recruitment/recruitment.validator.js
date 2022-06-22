@@ -27,3 +27,9 @@ export const updateRecruitment = {
     skill: Joi.string().max(20),
   })
 };
+
+export const getRecruitment = {
+  params: Joi.object({
+    recruitment_id: Joi.number().required()
+  })
+};

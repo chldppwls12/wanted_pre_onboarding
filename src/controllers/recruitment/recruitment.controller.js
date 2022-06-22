@@ -115,3 +115,43 @@ export const updateRecruitment = async (req, res) => {
     return res.send(err);
   }
 }
+
+export const getRecruitment = async (req, res) => {
+  try{
+    const {recruitment_id} = req.params;
+
+    const isExistRecruitmentId = await Recruitment.findOne({
+      where: {'recruitment_id': recruitment_id}
+    });
+
+    if (!isExistRecruitmentId){
+      return res.status(400).json('존재하지 않는 recruitment_id 입니다');
+    };
+
+    const attrs = {
+      attributes: [
+          'recruitment_id',
+          [Sequelize.col('company.name'), 'name'],
+          [Sequelize.col('company.nation'), 'nation'],
+          [Sequelize.col('company.area'), 'area'],
+          'position',
+          'compensation',
+          'skill',
+          'content'
+      ],
+      include: {
+          model: Company,
+          attributes: [],
+      }
+    };
+    const result = await Recruitment.findByPk(recruitment_id, attrs);
+    console.log(result)
+
+    return res.status(200).json(result);
+  }
+  catch(err){
+    logger.error(`getRecruitment Controller Err: ${err}`);
+    console.log(err);
+    return res.send(err);
+  }
+}
